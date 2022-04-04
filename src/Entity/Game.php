@@ -35,6 +35,9 @@ class Game
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'games')]
     private $Players;
 
+    #[ORM\ManyToOne(targetEntity: Tournament::class, inversedBy: 'Games')]
+    private $tournament;
+
     public function __construct()
     {
         $this->Players = new ArrayCollection();
@@ -131,6 +134,18 @@ class Game
     public function removePlayer(User $player): self
     {
         $this->Players->removeElement($player);
+
+        return $this;
+    }
+
+    public function getTournament(): ?Tournament
+    {
+        return $this->tournament;
+    }
+
+    public function setTournament(?Tournament $tournament): self
+    {
+        $this->tournament = $tournament;
 
         return $this;
     }
