@@ -41,6 +41,8 @@ class TournamentController extends AbstractController
     #[Route('/tournament/{id}', name: 'app_tournament_show', methods: ['GET'])]
     public function show(Tournament $tournament): Response
     {
+        /*dump($tournament->getEndingDate());
+        dd($tournament->getEndingDate()->add(new \DateInterval('P15D')));*/
         return $this->render('tournament/show.html.twig', [
             'tournament' => $tournament,
         ]);
