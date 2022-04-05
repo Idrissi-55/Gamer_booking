@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tournament{% endblock %}
+
+{% block body %}
+    <h1>Tournament</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tournament.id }}</td>
+            </tr>
+            <tr>
+                <th>Starting_date</th>
+                <td>{{ tournament.startingDate ? tournament.startingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Ending_date</th>
+                <td>{{ tournament.endingDate ? tournament.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Award</th>
+                <td>{{ tournament.Award }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_tournament_index') }}">back to list</a>
+
+    <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
+
+    {{ include('tournament/_delete_form.html.twig') }}
+{% endblock %}

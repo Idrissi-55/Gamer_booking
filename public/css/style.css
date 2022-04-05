@@ -1,0 +1,87 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap');
+
+body{
+    background-image: linear-gradient( #dc2430, #437b97);
+    color: white;
+    font-family: 'Oswald', sans-serif;
+}
+
+header{
+    display:flex;
+    align-items: baseline;
+}
+#logo{
+    transform: rotate(105deg);
+}
+main{
+    background-color: white;
+    color:black;
+    height: 800px;
+    border-radius: 30px;
+    padding: 2%;
+    margin: 2%;
+}
+
+.menu{
+    width:35%;
+    display:flex;
+    justify-content: space-between;
+    margin-left: 3%;
+}
+
+.menuLink{
+    display:flex ;
+    justify-content: center;
+    align-items: center;
+    width: 9em;
+    margin:2%;
+    background-color: white;
+    color:black;
+    border-radius: 10px;
+    text-decoration: none;
+
+}
+
+li{
+    list-style:none;
+}
+
+/*Wish cards*/
+.card {
+    /* Add shadows to create the "card" effect */
+    width: 15%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    padding: 2%;
+    margin:2%;
+    border-radius: 10px;
+}
+
+.card-container{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+/*Flash messages*/
+.flash-success{
+    margin:3em;
+    padding:1em;
+    background-color: forestgreen;
+    opacity: 0.8;
+}
+.flash-danger{
+    margin:3em;
+    padding:1em;
+    background-color: orange;
+    opacity: 0.8;
+}
+
+/*Form style*/
+#wish{
+    width: 12em;
+}
+#wish>div{
+    display: flex;
+    flex-direction: column;
+}
