@@ -24,10 +24,10 @@
         {% if (app.user) %}
 					<a class="menuLink" href="{{ path('app_logout') }}">Logout</a>
 					<h1>Hello {{app.user.pseudo}} !</h1>
-				{% else %}
+		{% else %}
 					<a class="menuLink" href="{{ path('app_login') }}">Login</a>
 					<a class="menuLink" href="{{ path('app_register') }}">Register</a>
-				{% endif %}
+		{% endif %}
     </div>
 </header>
 {#//FLASH MESSAGES
