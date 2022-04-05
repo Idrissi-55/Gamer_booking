@@ -21,15 +21,13 @@
                 <td>{{ tournament.id }}</td>
                 <td>{{ tournament.startingDate ? tournament.startingDate|date('d M Y H:i') : '' }}</td>
                 <td>{{ tournament.endingDate ? tournament.endingDate|date('d M Y H:i') : '' }}</td>
-                <td>{{ tournament.Award }}</td>
+                <td>{{ tournament.Award }} €</td>
                 <td>
-
                     <a href="{{ path('app_tournament_show', {'id': tournament.id}) }}">show</a>
                     {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
                         <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
                     {% endif %}
                 </td>
-
                 {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
                     <td>{{ include('tournament/_delete_form.html.twig') }}</td>
                 {% endif %}

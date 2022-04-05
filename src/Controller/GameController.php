@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/game')]
+
 class GameController extends AbstractController
 {
-    #[Route('/', name: 'app_game_index', methods: ['GET'])]
+    #[Route('/game/', name: 'app_game_index', methods: ['GET'])]
     public function index(GameRepository $gameRepository): Response
     {
         return $this->render('game/index.html.twig', [
@@ -21,7 +21,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_game_new', methods: ['GET', 'POST'])]
+    #[Route('/game/new', name: 'app_game_new', methods: ['GET', 'POST'])]
     public function new(Request $request, GameRepository $gameRepository): Response
     {
         $game = new Game();
@@ -39,7 +39,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_game_show', methods: ['GET'])]
+    #[Route('/game/{id}', name: 'app_game_show', methods: ['GET'])]
     public function show(Game $game): Response
     {
         return $this->render('game/show.html.twig', [
@@ -47,7 +47,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
+    #[Route('/game/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Game $game, GameRepository $gameRepository): Response
     {
         $form = $this->createForm(GameType::class, $game);
@@ -64,7 +64,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_game_delete', methods: ['POST'])]
+    #[Route('/game/delete/{id}', name: 'app_game_delete', methods: ['POST'])]
     public function delete(Request $request, Game $game, GameRepository $gameRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$game->getId(), $request->request->get('_token'))) {
@@ -73,4 +73,15 @@ class GameController extends AbstractController
 
         return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
+    public function addUser(Request $request,GameRepository $repo, $id): Response
+    {
+        $game = $repo->find($id);
+        dd($game);
+
+        return $this->redirectToRoute('route' );
+    }
+
+
 }
