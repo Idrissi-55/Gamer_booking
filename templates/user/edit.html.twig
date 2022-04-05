@@ -1,11 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Edit User
+{% endblock %}
 
 {% block body %}
-    <h1>Mon profil</h1>
+	<h1>Mon profil</h1>
 
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+	{{ include('user/_form.html.twig', {'button_label': 'Confirmer les modifications'}) }}
 
-    {{ include('user/_delete_form.html.twig') }}
+	{% if "ROLE_ADMIN" in app.user.getRoles  %}
+		{{ include('user/_delete_form.html.twig') }}
+	{% endif %}
+
 {% endblock %}

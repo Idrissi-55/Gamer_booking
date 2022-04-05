@@ -23,7 +23,12 @@
         <a class="menuLink" href="{{ path ('app_tournament_index') }}">Tournois</a>
         {% if (app.user) %}
 					<a class="menuLink" href="{{ path('app_logout') }}">Logout</a>
+					<a class="menuLink" href="{{ path('app_user_show', {id: app.user.id}) }}">Mon Profil</a>
 					<h1>Hello {{app.user.pseudo}} !</h1>
+
+                    {% if "ROLE_ADMIN" in app.user.getRoles  %}
+		                {{ include('user/dashboard.html.twig') }}
+	                {% endif %}
 		{% else %}
 					<a class="menuLink" href="{{ path('app_login') }}">Login</a>
 					<a class="menuLink" href="{{ path('app_register') }}">Register</a>
