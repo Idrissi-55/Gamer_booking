@@ -14,13 +14,20 @@
 <body>
 <header>
     <div>
-        <img src="{{ asset('images/icon.png') }}" alt="logo" height="90" id="logo">
+        <img src="{{ asset('images/logo.jpg') }}" alt="logo" height="90" id="logo">
     </div>
     <div>
-        <h1>Bucket list</h1>
+        <h1>Welcome to Gamer Booking !</h1>
     </div>
     <div class="menu">
         <a class="menuLink" href="{{ path ('app_tournament_index') }}">Tournois</a>
+        {% if (app.user) %}
+					<a class="menuLink" href="{{ path('app_logout') }}">Logout</a>
+					<h1>Hello {{app.user.pseudo}} !</h1>
+		{% else %}
+					<a class="menuLink" href="{{ path('app_login') }}">Login</a>
+					<a class="menuLink" href="{{ path('app_register') }}">Register</a>
+		{% endif %}
     </div>
 </header>
 {#//FLASH MESSAGES
