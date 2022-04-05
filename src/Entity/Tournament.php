@@ -6,6 +6,7 @@ use App\Repository\TournamentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TournamentRepository::class)]
 class Tournament
@@ -16,12 +17,17 @@ class Tournament
     private $id;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Assert\GreaterThan('today', message : 'Doit être posterieur à aujourd\'hui')]
     private $starting_date;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     private $ending_date;
 
     #[ORM\Column(type: 'float')]
+    #[Assert\Range(
+        min: '0.1',
+        max: '1000',
+    )]
     private $Award;
 
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: Game::class)]
