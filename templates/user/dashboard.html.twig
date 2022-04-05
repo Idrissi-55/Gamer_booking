@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+	
+    <div>
+        <h2>Consulter la liste de tous les utilisateurs</h2>
+	    <a href="{{ path('app_user_index')}}">Consulter</a>
+    </div>
+
+    <div>
+        <h2>Consulter la liste des tournois en cours</h2>
+	    <a href="{{ path('app_tournament_index')}}">Consulter</a>
+    </div>
+
+    <div>
+        <h2>Créer un nouveau tournoi</h2>
+	    <a href="{{ path('app_tournament_new')}}">Créer</a>
+    </div>
+
+
+
+    
+
+
+
+
+{% endblock %}

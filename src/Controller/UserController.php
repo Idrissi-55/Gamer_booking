@@ -21,6 +21,15 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
+    public function dashboard(UserRepository $userRepository): Response
+    {
+        return $this->render('user/dashboard.html.twig', [
+            //Afficher les derniers utilisateurs ajoutés
+            'users' => $userRepository->findAll(),
+        ]);
+    }
+
     // #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     // public function new(Request $request, UserRepository $userRepository): Response
     // {
@@ -73,4 +82,8 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
 }
