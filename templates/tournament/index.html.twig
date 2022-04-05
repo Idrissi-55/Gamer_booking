@@ -7,13 +7,13 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>N° tournoi</th>
-                <th>Starting_date</th>
-                <th>Ending_date</th>
-                <th>Award</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>N° tournoi</th>
+            <th>Starting_date</th>
+            <th>Ending_date</th>
+            <th>Award</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for tournament in tournaments %}
@@ -41,5 +41,5 @@
         {% endfor %}
         </tbody>
     </table>
-        <a href="{{ path('app_tournament_new') }}">Create new</a>
+    <a href="{{ path('app_tournament_new') }}">Create new</a>
 {% endblock %}

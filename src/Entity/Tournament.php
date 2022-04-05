@@ -22,7 +22,7 @@ class Tournament
 
     #[ORM\Column(type: 'datetime', nullable: true)]
     #[Assert\Expression('this.getStartingDate() < this.getEndingDate()', message: 'La date de fin doit être postérieure à la date de début')]
-    /*#[Assert\Expression("this.getEndingDate() > (this.getStartingDate()->add(new DateInterval('P15D')))")]*/
+    #[Assert\Expression('value + error_margin < threshold', values: ['error_margin' => 0.25, 'threshold' => 1.5] )]
     private $ending_date;
 
     #[ORM\Column(type: 'float')]
