@@ -8,8 +8,8 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ tournament.id }}</td>
+                <th>Title</th>
+                <td>{{ tournament.title  }}</td>
             </tr>
             <tr>
                 <th>Starting_date</th>
@@ -18,6 +18,10 @@
             <tr>
                 <th>Ending_date</th>
                 <td>{{ tournament.endingDate ? tournament.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ tournament.description }}</td>
             </tr>
             <tr>
                 <th>Award</th>

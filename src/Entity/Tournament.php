@@ -17,10 +17,12 @@ class Tournament
     private $id;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Assert\GreaterThan('today', message : 'Doit être posterieur à aujourd\'hui')]
+    #[Assert\GreaterThan('today', message : 'La date de début doit être postérieure à aujourd\'hui')]
     private $starting_date;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Assert\Expression('this.getStartingDate() < this.getEndingDate()', message: 'La date de fin doit être postérieure à la date de début')]
+    /*#[Assert\Expression("this.getEndingDate() > (this.getStartingDate()->add(new DateInterval('P15D')))")]*/
     private $ending_date;
 
     #[ORM\Column(type: 'float')]
@@ -32,6 +34,12 @@ class Tournament
 
     #[ORM\OneToMany(mappedBy: 'tournament', targetEntity: Game::class)]
     private $Games;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    private $Description;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $title;
 
     public function __construct()
     {
@@ -105,6 +113,30 @@ class Tournament
                 $game->setTournament(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(?string $Description): self
+    {
+        $this->Description = $Description;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }
