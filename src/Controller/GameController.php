@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 
 class GameController extends AbstractController
@@ -75,12 +77,16 @@ class GameController extends AbstractController
     }
 
     #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
-    public function addUser(Request $request,GameRepository $repo, $id): Response
+    public function addUser(EntityManagerInterface $em, GameRepository $repo, $id, Security $security): Response
     {
         $game = $repo->find($id);
-        dd($game);
+        if(!$game){
+            throw $this->createNotFoundException();
+        }
+        $game->addPlayer($security->getUser());
+        $em->flush();
 
-        return $this->redirectToRoute('route' );
+        return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
 
 

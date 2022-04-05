@@ -31,8 +31,13 @@
     </table>
     <div class="match-list">
         {% for game in tournament.games %}
-            <p>Identifiant match: {{ game.id }}</p>
-            <p>Adversaire --> TO IMPLEMENT Get player if existes and < 2</p>
+            <p>Match n°{{ game.id }}</p>
+            <p>Liste des joueurs : </p>
+            <ul>
+                {% for player in game.players %}
+                    <li>{{ player.pseudo }}</li>
+                {% endfor %}
+            </ul>
             <form action="{{ path('app_game_add_user', {'id': game.id}) }}" method="post">
                 <button type="submit">Participer</button>
             </form>
