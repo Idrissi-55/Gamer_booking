@@ -29,7 +29,15 @@
             </tr>
         </tbody>
     </table>
-
+    <div class="match-list">
+        {% for game in tournament.games %}
+            <p>Identifiant match: {{ game.id }}</p>
+            <p>Adversaire --> TO IMPLEMENT Get player if existes and < 2</p>
+            <form action="{{ path('app_game_add_user', {'id': game.id}) }}" method="post">
+                <button type="submit">Participer</button>
+            </form>
+        {% endfor %}
+    </div>
     <a href="{{ path('app_tournament_index') }}">back to list</a>
 
     <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
