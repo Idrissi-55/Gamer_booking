@@ -21,7 +21,6 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('name', null, ['label' => 'Nom', 'attr' => ['placeholder' => 'Votre nom']])
             ->add('surname', null, ['label' => 'Prénom', 'attr' => ['placeholder' => 'Votre prénom']])
-            ->add('ranking', null, ['label' => 'Rank', 'attr' => ['placeholder' => 'Votre classement']])
             ->add('pseudo', null, ['label' => 'Pseudo', 'attr' => ['placeholder' => 'Votre pseudo']])
             // ->add('avatar')
             ->add('email', null, ['label' => 'Email', 'attr' => ['placeholder' => 'Votre email']])

@@ -46,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Players')]
     private $games;
 
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    private $NbPoints;
+
     public function __construct()
     {
         $this->games = new ArrayCollection();
@@ -223,6 +226,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($this->games->removeElement($game)) {
             $game->removePlayer($this);
         }
+
+        return $this;
+    }
+
+    public function getNbPoints(): ?int
+    {
+        return $this->NbPoints;
+    }
+
+    public function setNbPoints(?int $NbPoints): self
+    {
+        $this->NbPoints = $NbPoints;
 
         return $this;
     }

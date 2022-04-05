@@ -8,28 +8,25 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
+                <th>Nom</th>
+                <td>{{ user.surname }}</td>
             </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ user.name }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ user.pseudo }}</td>
+            </tr>          
             <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
+            
             <tr>
                 <th>Password</th>
                 <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ user.name }}</td>
-            </tr>
-            <tr>
-                <th>Surname</th>
-                <td>{{ user.surname }}</td>
             </tr>
             <tr>
                 <th>Ranking</th>
@@ -39,14 +36,8 @@
                 <th>Avatar</th>
                 <td>{{ user.avatar }}</td>
             </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ user.pseudo }}</td>
-            </tr>
         </tbody>
     </table>
-
-    <a href="{{ path('app_user_index') }}">back to list</a>
 
     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
 

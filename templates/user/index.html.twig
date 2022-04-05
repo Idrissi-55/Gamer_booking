@@ -8,30 +8,22 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Ranking</th>
-                <th>Avatar</th>
                 <th>Pseudo</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Classement</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.surname }}</td>
-                <td>{{ user.ranking }}</td>
-                <td>{{ user.avatar }}</td>
                 <td>{{ user.pseudo }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.surname }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.ranking }}</td>
                 <td>
                     <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
@@ -45,5 +37,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_user_new') }}">Create new</a>
 {% endblock %}
