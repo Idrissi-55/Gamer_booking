@@ -7,6 +7,7 @@ use App\Entity\Tournament;
 use App\Form\TournamentType;
 use App\Repository\GameRepository;
 use App\Repository\TournamentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -36,7 +37,7 @@ class TournamentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tournamentRepository->add($tournament);
             //Add 6 games to tournament
-            for($i = 1; $i <= 6  ; $i++){
+            for ($i = 1; $i <= 6  ; $i++) {
                 $game = new Game();
                 $game->setTournament($tournament);
                 $game->setDescription($i);
@@ -89,33 +90,69 @@ class TournamentController extends AbstractController
     }
     
     #[Route('/tournament/addUser/{id}', name: 'app_tournament_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
-    public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, $id, Security $security): Response
+    public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, UserRepository $userRepository, $id, Security $security): Response
     {
-        
+        //Check if user already exist in tournament (not more than 3 times)
         $tournament = $tournamentRepository->find($id);
-        
-        $availableGames = $tournament->getGames()->toArray();
-
-        $count = 1;
-            foreach($availableGames as $game) {
-                $gameArray = $game->getPlayers()->toArray();
-                
-                if ($count < 4) {
-
-                    if( in_array($security->getUser(),$gameArray) && count($gameArray) >=2 ) {
-                        //addflash RRROOOUUUGGGE avec render
-                         dump("joueur déjà inscrit ou nbre de joueurs maximum atteint");
-                    } else {
-                         $game->addPlayer($security->getUser());
-                         $em->flush();
-                         $count++;
-                         var_dump($count);
-                    } 
-
-                } 
-            }
-
     
+        if(count($tournament->getPairs()) >= 4) {
+
+            dd("Nbre de joueurs max atteint !");
+
+        } elseif( in_array($security->getUser()->getId(), $tournament->getPairs())) {
+
+            dd("joueur déjà inscrit");
+
+        } else {
+
+            $tournament->addPlayer($security->getUser()->getId());
+            $tournament->setNbPlayers($tournament->getNbPlayers() +1);
+            $em->flush();
+            // dd($tournament->getPairs());
+        }
+
+        
+        // Create pairs
+        if(count($tournament->getPairs()) === 4) {
+
+            $pairs = $tournament->getPairs();
+            $arrayPairs = [];
+            for ($i = 1; $i <= count($pairs); ++$i) {
+                for ($j = $i+1; $j <= count($pairs); ++$j) {
+                    $arrayPairs[] = [$i, $j];
+                }
+            }
+        }
+        // dd($arrayPairs);
+
+        $availableGames = $tournament->getGames()->toArray();
+        $n = 0;
+        foreach ($availableGames as $game) {
+            $player1Id = $arrayPairs[$n][0];
+            $player2Id = $arrayPairs[$n][1];
+
+            $player1 = $userRepository->find($player1Id);
+            $player2 = $userRepository->find($player2Id);
+            // array_push($game->getNbPlayers(), $player1, $player2);
+            $game->addPlayer($player1);
+            $game->addPlayer($player2);
+            $em->flush();
+            $n++;
+        }
+        // dd($availableGames);
         return $this->redirectToRoute('app_tournament_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
     }
+
+    // public function makePairs(Tournament $tournament):array {
+
+    //     $pairs = $tournament->getPairs();
+    //     $arrayPairs = [];
+    //     for ($i = 1; $i <= count($pairs); ++$i) {
+    //         for ($j = $i+1; $j <= count($pairs); ++$j) {
+    //             $arrayPairs[] = [$i, $j];
+    //         }
+    //     }
+
+    //     return $arrayPairs;
+    // }
 }

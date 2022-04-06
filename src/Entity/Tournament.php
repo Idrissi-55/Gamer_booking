@@ -41,6 +41,12 @@ class Tournament
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
+    #[ORM\Column(type: 'smallint', nullable: true)]
+    private $nbPlayers = 0;
+
+    #[ORM\Column(type: 'array', nullable: true)]
+    private $Pairs = [];
+
     public function __construct()
     {
         $this->Games = new ArrayCollection();
@@ -140,4 +146,34 @@ class Tournament
 
         return $this;
     }
+
+    public function getNbPlayers(): ?int
+    {
+        return $this->nbPlayers;
+    }
+
+    public function setNbPlayers(?int $nbPlayers): self
+    {
+        $this->nbPlayers = $nbPlayers;
+
+        return $this;
+    }
+
+    public function getPairs(): ?array
+    {
+        return $this->Pairs;
+    }
+
+    public function setPairs(?array $Pairs): self
+    {
+        $this->Pairs = $Pairs;
+
+        return $this;
+    }
+
+    public function addPlayer($id) {
+        
+        array_push($this->Pairs, $id);
+    }
+
 }
