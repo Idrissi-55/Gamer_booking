@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\TournamentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,26 +78,42 @@ class GameController extends AbstractController
     }
 
     #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
-    public function addUser(EntityManagerInterface $em, GameRepository $repo, $id, Security $security): Response
+    public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, $id, Security $security): Response
     {
-        $game = $repo->find($id);
+        $game = $gameRepository->find($id);
         if(!$game){
             throw $this->createNotFoundException();
         }
 
         $tournamentId = $game->getTournament()->getId();
+        
+        $tournament = $tournamentRepository->find($tournamentId);
+        
+        $availableGames = $tournament->getGames()->toArray();
 
         $players = $game->getPlayers()->toArray();
-        foreach( $players as $player){
-            if($player->getId() === $security->getUser()->getId()){
-                //addflash RRROOOUUUGGGE avec render
-                dump('nope!');
-                exit;
-            }
-         }
 
-        $game->addPlayer($security->getUser());
-        $em->flush();
+        $count = 0;
+        
+        // foreach($availableGames as $game ) {
+        //    dump($game->getPlayers()->toArray());
+           
+        // } 
+        
+
+        // foreach( $players as $player){
+        //     if($player === $security->getUser()){
+        //         //addflash RRROOOUUUGGGE avec render
+        //         dump('nope!');
+        //         exit;
+        //     }
+        //  }
+
+        // dump($availableGames);
+        // exit();
+
+        // // $game->addPlayer($security->getUser());
+        // // $em->flush();
 
         return $this->redirectToRoute('app_tournament_show', ['id'=>$tournamentId], Response::HTTP_SEE_OTHER);
     }

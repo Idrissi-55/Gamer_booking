@@ -134,9 +134,10 @@ class Game
         if (!$this->Players->contains($player)) {
             $this->Players[] = $player;
         }
-
+        
         return $this;
     }
+
 
     public function removePlayer(User $player): self
     {
