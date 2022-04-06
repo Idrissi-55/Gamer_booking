@@ -33,9 +33,10 @@ class TournamentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tournamentRepository->add($tournament);
             //Add 6 games to tournament
-            for($i = 0; $i <= 5  ; $i++){
+            for($i = 1; $i <= 6  ; $i++){
                 $game = new Game();
                 $game->setTournament($tournament);
+                $game->setDescription($i);
                 $gameRepository->add($game);
                 $tournament->addGame($game);
             }

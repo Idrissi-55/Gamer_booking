@@ -31,7 +31,7 @@
     </table>
     <div class="match-list">
         {% for game in tournament.games %}
-            <p>Match :</p>
+            <p>Match : {{ game.description }}</p>
             <p>Liste des joueurs : </p>
             <ul>
                 {% for player in game.players %}
