@@ -44,7 +44,13 @@ class GameRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
+    
+//    public function getGameAndPlayers(){
+//        $qb = $this->createQueryBuilder('game')
+//            ->join('game.players', 'players')
+//            ->addselect('players');
+//        return $qb->getQuery();        
+//    }
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */

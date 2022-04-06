@@ -6,6 +6,9 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +47,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $pseudo;
 
     #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Players')]
+    #[JoinTable(name: "game_user")]
+    #[JoinColumn(name: "game_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "user", referencedColumnName: "id")]
     private $games;
 
     #[ORM\Column(type: 'smallint', nullable: true)]

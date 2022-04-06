@@ -83,13 +83,22 @@ class GameController extends AbstractController
         if(!$game){
             throw $this->createNotFoundException();
         }
-        $players = $game->getPlayers();
-        dd($players);
+
+        $tournamentId = $game->getTournament()->getId();
+
+        $players = $game->getPlayers()->toArray();
+        foreach( $players as $player){
+            if($player->getId() === $security->getUser()->getId()){
+                //addflash RRROOOUUUGGGE avec render
+                dump('nope!');
+                exit;
+            }
+         }
 
         $game->addPlayer($security->getUser());
         $em->flush();
 
-        return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_tournament_show', ['id'=>$tournamentId], Response::HTTP_SEE_OTHER);
     }
 
 

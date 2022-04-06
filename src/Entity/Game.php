@@ -6,6 +6,9 @@ use App\Repository\GameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
 class Game
@@ -33,6 +36,9 @@ class Game
     private $description;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'games')]
+    /*#[JoinTable(name: "game_user")]
+    #[JoinColumn(name: "user_id", referencedColumnName: "id")]
+    #[InverseJoinColumn(name: "game", referencedColumnName: "id")]*/
     private $Players;
 
     #[ORM\ManyToOne(targetEntity: Tournament::class, inversedBy: 'Games')]
