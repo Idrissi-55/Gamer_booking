@@ -46,10 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255)]
     private $pseudo;
 
-    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Players')]
-    #[JoinTable(name: "game_user")]
-    #[JoinColumn(name: "game_id", referencedColumnName: "id")]
-    #[InverseJoinColumn(name: "user", referencedColumnName: "id")]
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'Players')]    
     private $games;
 
     #[ORM\Column(type: 'smallint', nullable: true)]

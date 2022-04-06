@@ -79,6 +79,8 @@ class GameController extends AbstractController
     #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
     public function addUser(EntityManagerInterface $em, GameRepository $repo, $id, Security $security): Response
     {
+
+        //CONTROLLER SI MATCH EXISTE AVEC DE LA PLACE
         $game = $repo->find($id);
         if(!$game){
             throw $this->createNotFoundException();
@@ -87,9 +89,12 @@ class GameController extends AbstractController
         $tournamentId = $game->getTournament()->getId();
 
         $players = $game->getPlayers()->toArray();
+        if(count($players) >=2 ){
+            //addflash RRROOOUUUGGGE avec redirect
+        }
         foreach( $players as $player){
             if($player->getId() === $security->getUser()->getId()){
-                //addflash RRROOOUUUGGGE avec render
+                //addflash RRROOOUUUGGGE avec redirect
                 dump('nope!');
                 exit;
             }
