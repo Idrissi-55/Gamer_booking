@@ -83,6 +83,9 @@ class GameController extends AbstractController
         if(!$game){
             throw $this->createNotFoundException();
         }
+        $players = $game->getPlayers();
+        dd($players);
+
         $game->addPlayer($security->getUser());
         $em->flush();
 
