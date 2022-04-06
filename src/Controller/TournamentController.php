@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Tournament;
 use App\Entity\Game;
+use App\Entity\Tournament;
 use App\Form\TournamentType;
-use App\Repository\TournamentRepository;
 use App\Repository\GameRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\TournamentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints\Length;
 
 class TournamentController extends AbstractController
 {
@@ -83,5 +86,36 @@ class TournamentController extends AbstractController
         }
 
         return $this->redirectToRoute('app_tournament_index', [], Response::HTTP_SEE_OTHER);
+    }
+    
+    #[Route('/tournament/addUser/{id}', name: 'app_tournament_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
+    public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, $id, Security $security): Response
+    {
+        
+        $tournament = $tournamentRepository->find($id);
+        
+        $availableGames = $tournament->getGames()->toArray();
+
+        $count = 1;
+            foreach($availableGames as $game) {
+                $gameArray = $game->getPlayers()->toArray();
+                
+                if ($count < 4) {
+
+                    if( in_array($security->getUser(),$gameArray) && count($gameArray) >=2 ) {
+                        //addflash RRROOOUUUGGGE avec render
+                         dump("joueur déjà inscrit ou nbre de joueurs maximum atteint");
+                    } else {
+                         $game->addPlayer($security->getUser());
+                         $em->flush();
+                         $count++;
+                         var_dump($count);
+                    } 
+
+                } 
+            }
+
+    
+        return $this->redirectToRoute('app_tournament_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
     }
 }

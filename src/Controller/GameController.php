@@ -77,46 +77,47 @@ class GameController extends AbstractController
         return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
-    public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, $id, Security $security): Response
-    {
-        $game = $gameRepository->find($id);
-        if(!$game){
-            throw $this->createNotFoundException();
-        }
+    // #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
+    // public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, $id, Security $security): Response
+    // {
+    //     $game = $gameRepository->find($id);
 
-        $tournamentId = $game->getTournament()->getId();
-        
-        $tournament = $tournamentRepository->find($tournamentId);
-        
-        $availableGames = $tournament->getGames()->toArray();
+    //     if(!$game){
+    //         throw $this->createNotFoundException();
+    //     }
 
-        $players = $game->getPlayers()->toArray();
-
-        $count = 0;
+    //     $tournamentId = $game->getTournament()->getId();
         
-        // foreach($availableGames as $game ) {
-        //    dump($game->getPlayers()->toArray());
+    //     $tournament = $tournamentRepository->find($tournamentId);
+        
+    //     $availableGames = $tournament->getGames()->toArray();
+
+    //     $players = $game->getPlayers()->toArray();
+
+    //     $count = 0;
+        
+    //     // foreach($availableGames as $game ) {
+    //     //    dump($game->getPlayers()->toArray());
            
-        // } 
+    //     // } 
         
 
-        // foreach( $players as $player){
-        //     if($player === $security->getUser()){
-        //         //addflash RRROOOUUUGGGE avec render
-        //         dump('nope!');
-        //         exit;
-        //     }
-        //  }
+    //     // foreach( $players as $player){
+    //     //     if($player === $security->getUser()){
+    //     //         //addflash RRROOOUUUGGGE avec render
+    //     //         dump('nope!');
+    //     //         exit;
+    //     //     }
+    //     //  }
 
-        // dump($availableGames);
-        // exit();
+    //     // dump($availableGames);
+    //     // exit();
 
-        // // $game->addPlayer($security->getUser());
-        // // $em->flush();
+    //     // // $game->addPlayer($security->getUser());
+    //     // // $em->flush();
 
-        return $this->redirectToRoute('app_tournament_show', ['id'=>$tournamentId], Response::HTTP_SEE_OTHER);
-    }
+    //     return $this->redirectToRoute('app_tournament_show', ['id'=>$tournamentId], Response::HTTP_SEE_OTHER);
+    // }
 
 
 }

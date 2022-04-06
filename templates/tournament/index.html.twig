@@ -28,6 +28,14 @@
                         <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
                     {% endif %}
                 </td>
+                <td>
+                {% if app.user %}
+                    <form action="{{ path('app_tournament_add_user', {'id': tournament.id}) }}" method="post">
+                        <button type="submit">Participer</button>
+                    </form>
+                
+                {% endif %}
+                </td>
                 {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
                     <td>{{ include('tournament/_delete_form.html.twig') }}</td>
                 {% endif %}
