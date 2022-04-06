@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Tournament;
+use App\Entity\Game;
 use App\Form\TournamentType;
 use App\Repository\TournamentRepository;
+use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,14 +23,23 @@ class TournamentController extends AbstractController
     }
 
     #[Route('/tournament/new', name: 'app_tournament_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, TournamentRepository $tournamentRepository): Response
+    public function new(Request $request, TournamentRepository $tournamentRepository, GameRepository $gameRepository): Response
     {
         $tournament = new Tournament();
+
         $form = $this->createForm(TournamentType::class, $tournament);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $tournamentRepository->add($tournament);
+            //Add 6 games to tournament
+            for($i = 1; $i <= 6  ; $i++){
+                $game = new Game();
+                $game->setTournament($tournament);
+                $game->setDescription($i);
+                $gameRepository->add($game);
+                $tournament->addGame($game);
+            }
             return $this->redirectToRoute('app_tournament_index', [], Response::HTTP_SEE_OTHER);
         }
 

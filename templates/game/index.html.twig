@@ -27,6 +27,9 @@
                 <td>{{ game.defeated }}</td>
                 <td>{{ game.description }}</td>
                 <td>
+                    <form action="{{ path('app_game_add_user', {'id': game.id}) }}" method="post">
+                        <button type="submit">Participer</button>
+                    </form>
                     <a href="{{ path('app_game_show', {'id': game.id}) }}">show</a>
                     <a href="{{ path('app_game_edit', {'id': game.id}) }}">edit</a>
                 </td>

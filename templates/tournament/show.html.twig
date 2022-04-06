@@ -31,19 +31,13 @@
     </table>
     <div class="match-list">
         {% for game in tournament.games %}
-            <p>Match n°{{ game.id }}</p>
+            <p>Match : {{ game.description }}</p>
             <p>Liste des joueurs : </p>
             <ul>
                 {% for player in game.players %}
                     <li>{{ player.pseudo }}</li>
                 {% endfor %}
             </ul>
-            <form action="{{ path('app_game_add_user', {'id': game.id}) }}" method="post">
-                <button type="submit">Participer</button>
-            </form>
-            {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
-                <a href="{{ path('app_game_new') }}">Nouveau match</a>
-            {% endif %}
         {% endfor %}
     </div>
     <a href="{{ path('app_tournament_index') }}">back to list</a>
