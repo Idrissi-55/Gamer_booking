@@ -1,48 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tournament{% endblock %}
+{% block title %}Tournament
+{% endblock %}
 
 {% block body %}
-    <h1>Tournament</h1>
+	<h1>Tournament</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Title</th>
-                <td>{{ tournament.title  }}</td>
-            </tr>
-            <tr>
-                <th>Starting_date</th>
-                <td>{{ tournament.startingDate ? tournament.startingDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Ending_date</th>
-                <td>{{ tournament.endingDate ? tournament.endingDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ tournament.description }}</td>
-            </tr>
-            <tr>
-                <th>Award</th>
-                <td>{{ tournament.Award }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="match-list">
-        {% for game in tournament.games %}
-            <p>Match : {{ game.description }}</p>
-            <p>Liste des joueurs : </p>
-            <ul>
-                {% for player in game.players %}
-                    <li>{{ player.pseudo }}</li>
-                {% endfor %}
-            </ul>
-        {% endfor %}
-    </div>
-    <a href="{{ path('app_tournament_index') }}">back to list</a>
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Title</th>
+				<td>{{ tournament.title  }}</td>
+			</tr>
+			<tr>
+				<th>Starting_date</th>
+				<td>{{ tournament.startingDate ? tournament.startingDate|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Ending_date</th>
+				<td>{{ tournament.endingDate ? tournament.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ tournament.description }}</td>
+			</tr>
+			<tr>
+				<th>Award</th>
+				<td>{{ tournament.Award }}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="match-list">
+		{% if tournament.nbPlayers > 3 %}
+			{% for game in tournament.games %}
+				<p>Match :
+					{{ game.description }}</p>
+				<p>Liste des joueurs :
+				</p>
+				<ul>
+					{% for player in game.players %}
+						<li>{{ player.pseudo }}</li>
+					{% endfor %}
+				</ul>
+			{% endfor %}
+		{% else %}
+			<h1>Liste des joueurs inscrits</h1>
+			<ul>
+				{% for player in players %}
+					<li>{{ player.pseudo }}</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
 
-    <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
+	</div>
+	<a href="{{ path('app_tournament_index') }}">back to list</a>
 
-    {{ include('tournament/_delete_form.html.twig') }}
+	<a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
+
+	{{ include('tournament/_delete_form.html.twig') }}
 {% endblock %}
