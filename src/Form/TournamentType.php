@@ -22,9 +22,11 @@ class TournamentType extends AbstractType
             ->add('title', TextType::class)
             ->add('starting_date', DateTimeType::class, [
                 'date_label' => 'Starts On',
+                'widget'=>'single_text'
             ])
             ->add('ending_date', DateTimeType::class, [
-                'date_label' => 'Ends On'
+                'date_label' => 'Ends On',
+                'widget'=>'single_text'
             ])
             ->add('Description', TextareaType::class)
             ->add('Award', MoneyType::class)

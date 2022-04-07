@@ -44,7 +44,6 @@ class TournamentRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
     // /**
     //  * @return Tournament[] Returns an array of Tournament objects
     //  */
