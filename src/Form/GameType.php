@@ -16,16 +16,13 @@ class GameType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $players = $options['user_choice'] ?? null;
-        /*dd($players);*/
-
         $builder
             ->add('Starting_date')
             ->add('ending_date')
             ->add('winner', EntityType::class,
                 ['class' => User::class,
-                'choice_label' => $players->getPseudo(),
-                'label' => 'Joueur : '])
+
+                'choice_label' => 'pseudo'])
             ->add('defeated')
             ->add('description')
             ->add('tournament', EntityType::class,
@@ -38,8 +35,7 @@ class GameType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Game::class,
-            'user_choice' => User::class,
+            'data_class' => null,
         ]);
     }
 }
