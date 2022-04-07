@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,10 +23,10 @@ class GameType extends AbstractType
         $builder
             ->add('Starting_date')
             ->add('ending_date')
-            ->add('winner', EntityType::class,
-                ['class' => User::class,
-                'choice_label' => $players->getPseudo(),
-                'label' => 'Joueur : '])
+            ->add('winner', CollectionType::class,
+                ['entry_type' => User::class,
+                    'entry_options' => ['label' => false],
+                ])
             ->add('defeated')
             ->add('description')
             ->add('tournament', EntityType::class,
@@ -39,7 +40,6 @@ class GameType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Game::class,
-            'user_choice' => User::class,
         ]);
     }
 }

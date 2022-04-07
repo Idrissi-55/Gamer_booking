@@ -5,8 +5,13 @@
 {% block body %}
     <h1>Edit Game</h1>
 
-    {{ include('game/_form.html.twig', {'button_label': 'Update'}) }}
+    {#{{ include('game/_form.html.twig', {'button_label': 'Update'}) }}#}
+    {{ form_start(form) }}
 
+        {% for user in game.user %}
+            <li>{{ form_row(user.pseudo) }}</li>
+        {% endfor %}
+    {{ form_end(form) }}
     <a href="{{ path('app_game_index') }}">back to list</a>
 
 {% endblock %}

@@ -55,8 +55,8 @@ class GameController extends AbstractController
     {
         $game = $gameRepository->find($id);
         $players = $game->getPlayers()->toArray();
-
-        $form = $this->createForm(GameType::class, $game, ['user_choice' => $players]);
+        $p1 = $players[0];
+        $form = $this->createForm(GameType::class, $game);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
