@@ -33,13 +33,17 @@
 	<div class="match-list">
 		{% if tournament.nbPlayers > 3 %}
 
-		<h1>Classement des joueurs</h1>
-		{% for game in tournament.games %}
-			{% for player in game.players %}
-				<p>{{player.Pseudo}}</p>
-				<p>{{player.nbPoints}}</p>
+			<h1>Classement des joueurs</h1>
+			{% for game in tournament.games %}
+				{% if game.description == 3 or game.description == 4 %}
+					{% for player in game.players | sort | reverse %}
+						 <td>{{ player.pseudo }}</td>
+						{# <p>{{player.Pseudo}} : {{player.nbPoints}} points</p> #}
+						
+					{% endfor %}
+
+				{% endif %}
 			{% endfor %}
-		{% endfor %}
 			{% for game in tournament.games %}
 
 				<p>Match :{{ game.description }}</p>
@@ -69,8 +73,10 @@
 							<button type="submit">Valider</button>
 						</form>
 					{% else %}
-						<p>Gagnant : {{game.winner}}</p>
-						<p>Perdant : {{game.defeated}}</p>
+						<p>Gagnant :
+							{{game.winner}}</p>
+						<p>Perdant :
+							{{game.defeated}}</p>
 					{% endif %}
 
 				{% endif %}
