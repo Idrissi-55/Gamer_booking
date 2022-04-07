@@ -110,33 +110,27 @@ class TournamentController extends AbstractController
 
             $tournament->addPlayer($security->getUser()->getId());
             $tournament->setNbPlayers($tournament->getNbPlayers() +1);
-//            $em->flush();
-//            dd($tournament->getPairs());
+            $em->flush();
         }
 
-        
         // Create pairs
         if(count($tournament->getPairs()) === 4) {
 
             $pairs = $tournament->getPairs();
-            dump($pairs);
             $arrayPairs = [];
             for ($i = 1; $i <= count($pairs); ++$i) {
                 for ($j = $i+1; $j <= count($pairs); ++$j) {
-                    $arrayPairs[] = $pairs [$i];
+                    $arrayPairs[] = [$pairs [$i-1], $pairs[$j-1]];
                 }
+
             }
             $availableGames = $tournament->getGames()->toArray();
             $n = 0;
-            dd($arrayPairs);
             foreach ($availableGames as $game) {
                 $player1Id = $arrayPairs[$n][0];
                 $player2Id = $arrayPairs[$n][1];
-                dump($player1Id);
                 $player1 = $userRepository->find($player1Id);
-                dump($player1);
                 $player2 = $userRepository->find($player2Id);
-                dd($player2);
                 $game->addPlayer($player1);
                 $game->addPlayer($player2);
                 $em->flush();
@@ -150,9 +144,7 @@ class TournamentController extends AbstractController
             }
         return $this->render('tournament/show.html.twig', compact('tournament','id', 'players'));    
         }
-        // dd($arrayPairs);
 
-        // dd($availableGames);
         return $this->redirectToRoute('app_tournament_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
     }
 
