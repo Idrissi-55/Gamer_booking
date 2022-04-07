@@ -51,9 +51,12 @@ class GameController extends AbstractController
     }
 
     #[Route('/game/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Game $game, GameRepository $gameRepository): Response
+    public function edit(Request $request, Game $game, GameRepository $gameRepository, $id): Response
     {
-        $form = $this->createForm(GameType::class, $game);
+        $game = $gameRepository->find($id);
+        $players = $game->getPlayers()->toArray();
+
+        $form = $this->createForm(GameType::class, $game, ['user_choice' => $players]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
