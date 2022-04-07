@@ -32,13 +32,19 @@
 	</table>
 	<div class="match-list">
 		{% if tournament.nbPlayers > 3 %}
+		<h1>testclassement</h1>
+			{% for player in playersPoints | sort | reverse %}
+				{{ player }}
+			{% endfor %}
 
 		<h1>Classement des joueurs</h1>
 		{% for game in tournament.games %}
-			{% for player in game.players %}
-				<p>{{player.Pseudo}}</p>
-				<p>{{player.nbPoints}}</p>
-			{% endfor %}
+			{% if game.description == 3 or game.description == 4 %}
+				{% for player in game.players | sort %}
+					<p>{{player.Pseudo}}</p>
+					<p>{{player.nbPoints}}</p>
+				{% endfor %}
+			{% endif %}
 		{% endfor %}
 			{% for game in tournament.games %}
 
