@@ -6,6 +6,7 @@ use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use App\Repository\TournamentRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,47 +80,24 @@ class GameController extends AbstractController
         return $this->redirectToRoute('app_game_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    // #[Route('/game/addUser/{id}', name: 'app_game_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
-    // public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, $id, Security $security): Response
-    // {
-    //     $game = $gameRepository->find($id);
+    #[Route('/game/{id}/winnerDefeated', name: 'app_game_setWD', methods: ['POST'])]
+    public function setWinnerAndDefeatd(EntityManagerInterface $em,Game $game, Request $request, UserRepository $userRepository, GameRepository $gameRepository): Response
+    {
+        $gagnantId = $request->request->get('gagnant');
+        $perdantId = $request->request->get('perdant');
 
-    //     if(!$game){
-    //         throw $this->createNotFoundException();
-    //     }
+        $gagnant = $userRepository->find($gagnantId);
+        $perdant = $userRepository->find($perdantId);
 
-    //     $tournamentId = $game->getTournament()->getId();
-        
-    //     $tournament = $tournamentRepository->find($tournamentId);
-        
-    //     $availableGames = $tournament->getGames()->toArray();
+        $game->setWinner($gagnant->getPseudo());
+        $game->setDefeated($perdant->getPseudo());
 
-    //     $players = $game->getPlayers()->toArray();
-
-    //     $count = 0;
-        
-    //     // foreach($availableGames as $game ) {
-    //     //    dump($game->getPlayers()->toArray());
-           
-    //     // } 
-        
-
-    //     // foreach( $players as $player){
-    //     //     if($player === $security->getUser()){
-    //     //         //addflash RRROOOUUUGGGE avec render
-    //     //         dump('nope!');
-    //     //         exit;
-    //     //     }
-    //     //  }
-
-    //     // dump($availableGames);
-    //     // exit();
-
-    //     // // $game->addPlayer($security->getUser());
-    //     // // $em->flush();
-
-    //     return $this->redirectToRoute('app_tournament_show', ['id'=>$tournamentId], Response::HTTP_SEE_OTHER);
-    // }
-
+        $gagnant->setNbPoints($gagnant->getNbPoints()+3);
+        $em->flush();
+        dd($gagnant);
+        return $this->render('game/show.html.twig', [
+            'game' => $game,
+        ]);
+    }
 
 }

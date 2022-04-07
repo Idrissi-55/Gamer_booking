@@ -22,13 +22,13 @@ class GameType extends AbstractType
             ->add('winner', EntityType::class,
                 ['class' => User::class,
 
-                'choice_label' => 'pseudo'])
+                    'choice_label' => 'pseudo'])
             ->add('defeated')
             ->add('description')
             ->add('tournament', EntityType::class,
-            ['class' => Tournament::class,
-                'choice_label' => 'title',
-                'label' => 'Tournoi : '])
+                ['class' => Tournament::class,
+                    'choice_label' => 'title',
+                    'label' => 'Tournoi : '])
         ;
     }
 
