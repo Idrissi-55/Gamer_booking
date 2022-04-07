@@ -6,12 +6,16 @@
     <h1>Edit Game</h1>
 
     {#{{ include('game/_form.html.twig', {'button_label': 'Update'}) }}#}
-    {{ form_start(form) }}
+    <form action="">
+        {% for game in games %}
+            {% for player in game.Players %}
 
-        {% for user in game.user %}
-            <li>{{ form_row(user.pseudo) }}</li>
+                {{ player.pseudo }}
+            {% endfor %}
         {% endfor %}
-    {{ form_end(form) }}
+    </form>
+
+
     <a href="{{ path('app_game_index') }}">back to list</a>
 
 {% endblock %}
