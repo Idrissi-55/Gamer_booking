@@ -32,20 +32,27 @@
 	</table>
 	<div class="match-list">
 		{% if tournament.nbPlayers > 3 %}
-		<h1>testclassement</h1>
-			{% for player in playersPoints | sort | reverse %}
-				{{ player }}
+		
+			{# <h1>testclassement</h1> #}
+			{% set points = [] %}
+			{% for playerPoints in playersPoints | sort | reverse %}
+				{{ playerPoints }}
+				{% set points = points|merge([playerPoints]) %}
 			{% endfor %}
-
-		<h1>Classement des joueurs</h1>
-		{% for game in tournament.games %}
-			{% if game.description == 3 or game.description == 4 %}
-				{% for player in game.players | sort %}
-					<p>{{player.Pseudo}}</p>
-					<p>{{player.nbPoints}}</p>
-				{% endfor %}
-			{% endif %}
-		{% endfor %}
+			{# {{dump(points)}} #}
+			<h1>Classement des joueurs</h1>
+			{% set pseudos = [] %}
+			{% for game in tournament.games %}
+				{% if game.description == 3 or game.description == 4 %}
+					{% for player in game.players %}
+						{% set pseudos = pseudos|merge([player.pseudo]) %}
+					{% endfor %}
+					{# {{dump(pseudos)}} #}
+				{% endif %}
+			{% endfor %}
+			{% for i in range(0, 3) %}
+				{{ pseudos[i] }} : {{ points[i]}} points <br>
+			{% endfor %}
 			{% for game in tournament.games %}
 
 				<p>Match :{{ game.description }}</p>
