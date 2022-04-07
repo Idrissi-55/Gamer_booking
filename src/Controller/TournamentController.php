@@ -56,6 +56,7 @@ class TournamentController extends AbstractController
     #[Route('/tournament/{id}', name: 'app_tournament_show', methods: ['GET'])]
     public function show(TournamentRepository $tournamentRepository, UserRepository $userRepository, $id): Response
     {
+        
         $tournament = $tournamentRepository->find($id);
         $players = [];
         $pairs = $tournament->getPairs();

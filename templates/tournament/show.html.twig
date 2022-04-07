@@ -8,40 +8,74 @@
 
 	<table class="table">
 		<tbody>
-		<tr>
-			<th>Title</th>
-			<td>{{ tournament.title  }}</td>
-		</tr>
-		<tr>
-			<th>Starting_date</th>
-			<td>{{ tournament.startingDate ? tournament.startingDate|date('Y-m-d H:i:s') : '' }}</td>
-		</tr>
-		<tr>
-			<th>Ending_date</th>
-			<td>{{ tournament.endingDate ? tournament.endingDate|date('Y-m-d H:i:s') : '' }}</td>
-		</tr>
-		<tr>
-			<th>Description</th>
-			<td>{{ tournament.description }}</td>
-		</tr>
-		<tr>
-			<th>Award</th>
-			<td>{{ tournament.Award }}</td>
-		</tr>
+			<tr>
+				<th>Title</th>
+				<td>{{ tournament.title  }}</td>
+			</tr>
+			<tr>
+				<th>Starting_date</th>
+				<td>{{ tournament.startingDate ? tournament.startingDate|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Ending_date</th>
+				<td>{{ tournament.endingDate ? tournament.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ tournament.description }}</td>
+			</tr>
+			<tr>
+				<th>Award</th>
+				<td>{{ tournament.Award }}</td>
+			</tr>
 		</tbody>
 	</table>
 	<div class="match-list">
 		{% if tournament.nbPlayers > 3 %}
+
+		<h1>Classement des joueurs</h1>
+		{% for game in tournament.games %}
+			{% for player in game.players %}
+				<p>{{player.Pseudo}}</p>
+				<p>{{player.nbPoints}}</p>
+			{% endfor %}
+		{% endfor %}
 			{% for game in tournament.games %}
-				<p>Match :
-					{{ game.description }}</p>
-				<p>Liste des joueurs :
-				</p>
+
+				<p>Match :{{ game.description }}</p>
+				<p>Liste des joueurs :</p>
 				<ul>
 					{% for player in game.players %}
 						<li>{{ player.pseudo }}</li>
 					{% endfor %}
 				</ul>
+				{% if "ROLE_ADMIN" in app.user.getRoles  %}
+					{% if game.winner == null %}
+						<form action="{{path('app_game_setWD', {id: game.id})}}" method="POST">
+							<label for="gagnant">Gagnant</label>
+							<select name="gagnant" id="">
+								{% for player in game.players %}
+									<option value="{{player.id}}">{{ player.pseudo }}</option>
+
+								{% endfor %}
+							</select>
+							<label for="perdant">Perdant</label>
+							<select name="perdant" id="">
+								{% for player in game.players %}
+									<option value="{{player.id}}">{{ player.pseudo }}</option>
+
+								{% endfor %}
+							</select>
+							<button type="submit">Valider</button>
+						</form>
+					{% else %}
+						<p>Gagnant : {{game.winner}}</p>
+						<p>Perdant : {{game.defeated}}</p>
+					{% endif %}
+
+				{% endif %}
+
+
 			{% endfor %}
 		{% else %}
 			<h1>Liste des joueurs inscrits</h1>
