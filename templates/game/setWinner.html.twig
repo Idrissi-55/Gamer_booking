@@ -1,0 +1,9 @@
+
+<form action="">
+    {% for game in games %}
+        {% for player in game.Players %}
+
+            {{ player.pseudo }}
+        {% endfor %}
+    {% endfor %}
+</form>

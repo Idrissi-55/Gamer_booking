@@ -5,7 +5,16 @@
 {% block body %}
     <h1>Edit Game</h1>
 
-    {{ include('game/_form.html.twig', {'button_label': 'Update'}) }}
+    {#{{ include('game/_form.html.twig', {'button_label': 'Update'}) }}#}
+    <form action="">
+        {% for game in games %}
+            {% for player in game.Players %}
+
+                {{ player.pseudo }}
+            {% endfor %}
+        {% endfor %}
+    </form>
+
 
     <a href="{{ path('app_game_index') }}">back to list</a>
 

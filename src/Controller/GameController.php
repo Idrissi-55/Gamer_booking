@@ -53,10 +53,9 @@ class GameController extends AbstractController
     #[Route('/game/{id}/edit', name: 'app_game_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Game $game, GameRepository $gameRepository, $id): Response
     {
-        $game = $gameRepository->find($id);
-        $players = $game->getPlayers()->toArray();
-
-        $form = $this->createForm(GameType::class, $game, ['user_choice' => $players]);
+        $gameWithPlayer = $gameRepository->getGameAndPlayers($id);
+        /*dd($gameWithPlayer);*/
+        $form = $this->createForm(GameType::class, $gameWithPlayer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -65,7 +64,7 @@ class GameController extends AbstractController
         }
 
         return $this->renderForm('game/edit.html.twig', [
-            'game' => $game,
+            'games' => $gameWithPlayer,
             'form' => $form,
         ]);
     }
