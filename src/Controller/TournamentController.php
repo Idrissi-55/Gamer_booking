@@ -54,12 +54,15 @@ class TournamentController extends AbstractController
     }
 
     #[Route('/tournament/{id}', name: 'app_tournament_show', methods: ['GET'])]
-    public function show(Tournament $tournament): Response
+    public function show(TournamentRepository $tournamentRepository, UserRepository $userRepository, $id): Response
     {
-        /*dd($tournament);*/
-        return $this->render('tournament/show.html.twig', [
-            'tournament' => $tournament,
-        ]);
+        $tournament = $tournamentRepository->find($id);
+        $players = [];
+        $pairs = $tournament->getPairs();
+        foreach ($pairs as $index => $id) {
+            array_push($players, $userRepository->find($id));
+        }
+        return $this->render('tournament/show.html.twig', compact('tournament', 'players'));
     }
 
     #[Route('/tournament/{id}/edit', name: 'app_tournament_edit', methods: ['GET', 'POST'])]
