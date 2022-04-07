@@ -110,8 +110,8 @@ class TournamentController extends AbstractController
 
             $tournament->addPlayer($security->getUser()->getId());
             $tournament->setNbPlayers($tournament->getNbPlayers() +1);
-            $em->flush();
-            // dd($tournament->getPairs());
+//            $em->flush();
+//            dd($tournament->getPairs());
         }
 
         
@@ -119,21 +119,24 @@ class TournamentController extends AbstractController
         if(count($tournament->getPairs()) === 4) {
 
             $pairs = $tournament->getPairs();
+            dump($pairs);
             $arrayPairs = [];
             for ($i = 1; $i <= count($pairs); ++$i) {
                 for ($j = $i+1; $j <= count($pairs); ++$j) {
-                    $arrayPairs[] = [$i, $j];
+                    $arrayPairs[] = $pairs [$i];
                 }
             }
             $availableGames = $tournament->getGames()->toArray();
             $n = 0;
+            dd($arrayPairs);
             foreach ($availableGames as $game) {
                 $player1Id = $arrayPairs[$n][0];
                 $player2Id = $arrayPairs[$n][1];
-    
+                dump($player1Id);
                 $player1 = $userRepository->find($player1Id);
+                dump($player1);
                 $player2 = $userRepository->find($player2Id);
-                // array_push($game->getNbPlayers(), $player1, $player2);
+                dd($player2);
                 $game->addPlayer($player1);
                 $game->addPlayer($player2);
                 $em->flush();
