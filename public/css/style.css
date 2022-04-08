@@ -11,9 +11,6 @@ header{
     display:flex;
     align-items: baseline;
 }
-#logo{
-    transform: rotate(105deg);
-}
 main{
     background-color: white;
     color:black;

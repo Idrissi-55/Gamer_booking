@@ -37,8 +37,6 @@
             </tr>
         </tbody>
     </table>
+    <a href="{{ path('app_tournament_show', {'id': game.tournament.id}) }}">Retour à la liste</a>
 
-    <a href="{{ path('app_game_index') }}">back to list</a>
-
-    <a href="{{ path('app_game_edit', {'id': game.id}) }}">edit</a>
 {% endblock %}

@@ -94,7 +94,6 @@ class GameController extends AbstractController
 
         $gagnant->setNbPoints($gagnant->getNbPoints()+3);
         $em->flush();
-        dd($gagnant);
         return $this->render('game/show.html.twig', [
             'game' => $game,
         ]);
