@@ -27,8 +27,8 @@
                         <a class="menuLink" href="{{ path('app_dashboard') }}">Dashboard</a>
 		                
 	                {% endif %}
-					<h1>Hello {{app.user.pseudo}} !</h1>
 					<a class="menuLink" href="{{ path('app_logout') }}">Se déconnecter</a>
+					<h1>Hello {{app.user.pseudo}} !</h1>
 
 		{% else %}
 					<a class="menuLink" href="{{ path('app_login') }}">Se connecter</a>

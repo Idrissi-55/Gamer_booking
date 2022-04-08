@@ -26,10 +26,19 @@
 			</tr>
 			<tr>
 				<th>Récompense</th>
-				<td>{{ tournament.Award }} €</td>
+				<td>{{ tournament.Award }}
+					€</td>
 			</tr>
 		</tbody>
 	</table>
+
+	<a href="{{ path('app_tournament_index') }}">Retour à la liste</a>
+	{% if app.user and "ROLE_ADMIN" in app.user.getRoles %}
+		<a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">Modifier</a>
+
+		{{ include('tournament/_delete_form.html.twig') }}
+	{% endif %}
+	
 	<div class="match-list">
 		{% if tournament.nbPlayers > 3 %}
 			{% set points = [] %}
@@ -46,45 +55,58 @@
 				{% endif %}
 			{% endfor %}
 			{% for i in range(0, 3) %}
-				{{ pseudos[i] }} : {{ points[i]}} points <br>
+				{{ pseudos[i] }}
+				:
+				{{ points[i]}}
+				points
+				<br>
 			{% endfor %}
-			{% for game in tournament.games %}
-				<p>Match :{{ game.description }}</p>
-				<p>Liste des joueurs :</p>
-				<ul>
-					{% for player in game.players %}
-						<li>{{ player.pseudo }}</li>
-					{% endfor %}
-				</ul>
+			<div class="card-container">
+				{% for game in tournament.games %}
+				<div class="card">
+					<h2>Match :{{ game.description }}</h2>
+					<h3>Liste des joueurs :</h3>
+					<ul>
+						{% for player in game.players %}
+							<li>{{ player.pseudo }}</li>
+						{% endfor %}
+					</ul>
 
-				{% if app.user and "ROLE_ADMIN" in app.user.getRoles %}
-					{% if game.winner == null %}
-					
-						<form action="{{path('app_game_setWD', {id: game.id})}}" method="POST">
+					{% if app.user and "ROLE_ADMIN" in app.user.getRoles %}
+						{% if game.winner == null %}
 
-							<label for="gagnant">Gagnant</label>
-							<select name="gagnant" id="">
-								{% for player in game.players %}
-									<option value="{{player.id}}">{{ player.pseudo }}</option>
-								{% endfor %}
-							</select>
+							<form action="{{path('app_game_setWD', {id: game.id})}}" method="POST">
 
-							<label for="perdant">Perdant</label>
-							<select name="perdant" id="">
-								{% for player in game.players %}
-									<option value="{{player.id}}">{{ player.pseudo }}</option>
-								{% endfor %}
-							</select>
-							<button type="submit">Valider</button>
-						</form>
+								<label for="gagnant">Gagnant</label>
+								<select name="gagnant" id="">
+									{% for player in game.players %}
+										<option value="{{player.id}}">{{ player.pseudo }}</option>
+									{% endfor %}
+								</select>
 
-					{% else %}
-						<p>Gagnant :{{game.winner}}</p>
-						<p>Perdant :{{game.defeated}}</p>
+								<label for="perdant">Perdant</label>
+								<select name="perdant" id="">
+									{% for player in game.players %}
+										<option value="{{player.id}}">{{ player.pseudo }}</option>
+									{% endfor %}
+								</select>
+								<button type="submit">Valider</button>
+							</form>
+
+						{% else %}
+							<p>Gagnant :
+								{{game.winner}}</p>
+							<p>Perdant :
+								{{game.defeated}}</p>
+						{% endif %}
+
 					{% endif %}
 
-				{% endif %}
-			{% endfor %}
+				</div>
+				{% endfor %}
+			
+			</div>
+			</div>
 		{% else %}
 			<h1>Liste des joueurs inscrits</h1>
 			<ul>
@@ -95,10 +117,5 @@
 		{% endif %}
 
 	</div>
-	<a href="{{ path('app_tournament_index') }}">back to list</a>
-	{% if app.user and "ROLE_ADMIN" in app.user.getRoles %}
-		<a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
-
-		{{ include('tournament/_delete_form.html.twig') }}
-	{% endif %}
+	
 {% endblock %}
