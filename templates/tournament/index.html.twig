@@ -8,18 +8,18 @@
     <table class="table">
         <thead>
         <tr>
-            <th>N° tournoi</th>
-            <th>Starting_date</th>
-            <th>Ending_date</th>
-            <th>Award</th>
-            <th>actions</th>
+            <th>Titre</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th>Récompense</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         <div>
             {% for tournament in tournaments %}
                 <tr>
-                    <td>{{ tournament.id }}</td>
+                    <td>{{ tournament.title }}</td>
                     <td>{{ tournament.startingDate ? tournament.startingDate|date('d M Y H:i') : '' }}</td>
                     <td>{{ tournament.endingDate ? tournament.endingDate|date('d M Y H:i') : '' }}</td>
                     <td>{{ tournament.Award }} €</td>

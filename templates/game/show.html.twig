@@ -3,38 +3,19 @@
 {% block title %}Game{% endblock %}
 
 {% block body %}
-    <h1>Game</h1>
+    <h1>Match n° : {{ game.description }}</h1>
 
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ game.id }}</td>
-            </tr>
-            <tr>
-                <th>Starting_date</th>
-                <td>{{ game.StartingDate ? game.StartingDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Ending_date</th>
-                <td>{{ game.endingDate ? game.endingDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Winner</th>
+                <th>Gagnant</th>
                 <td>{{ game.winner }}</td>
             </tr>
             <tr>
-                <th>Defeated</th>
+                <th>Perdant</th>
                 <td>{{ game.defeated }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ game.description }}</td>
-            </tr>
-            <tr>
-                <th>--> PLAYERS LIST TO IMPLEMENT</th>
-                <td>{{ game.description }}</td>
-            </tr>
+            
+            
         </tbody>
     </table>
     <a href="{{ path('app_tournament_show', {'id': game.tournament.id}) }}">Retour à la liste</a>

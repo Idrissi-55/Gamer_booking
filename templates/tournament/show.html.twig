@@ -56,15 +56,19 @@
 						<li>{{ player.pseudo }}</li>
 					{% endfor %}
 				</ul>
+
 				{% if app.user and "ROLE_ADMIN" in app.user.getRoles %}
 					{% if game.winner == null %}
+					
 						<form action="{{path('app_game_setWD', {id: game.id})}}" method="POST">
+
 							<label for="gagnant">Gagnant</label>
 							<select name="gagnant" id="">
 								{% for player in game.players %}
 									<option value="{{player.id}}">{{ player.pseudo }}</option>
 								{% endfor %}
 							</select>
+
 							<label for="perdant">Perdant</label>
 							<select name="perdant" id="">
 								{% for player in game.players %}
@@ -73,12 +77,12 @@
 							</select>
 							<button type="submit">Valider</button>
 						</form>
+
 					{% else %}
-						<p>Gagnant :
-							{{game.winner}}</p>
-						<p>Perdant :
-							{{game.defeated}}</p>
+						<p>Gagnant :{{game.winner}}</p>
+						<p>Perdant :{{game.defeated}}</p>
 					{% endif %}
+
 				{% endif %}
 			{% endfor %}
 		{% else %}
