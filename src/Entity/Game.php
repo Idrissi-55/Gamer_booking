@@ -42,7 +42,7 @@ class Game
     private $Players;
 
     #[ORM\ManyToOne(targetEntity: Tournament::class, inversedBy: 'Games')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete : "CASCADE")]
     private $tournament;
 
     public function __construct()

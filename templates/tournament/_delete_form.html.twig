@@ -1,5 +1,11 @@
 <form method="post" action="{{ path('app_tournament_delete', {'id': tournament.id}) }}"
-      onsubmit="return confirm('Voulez vous vraiment supprimer  {{ tournament.title }} ?');">
+      onsubmit="return confirm(
+              {% if tournament.nbPlayers == 0 %}
+                'Voulez vous vraiment supprimer  \'{{ tournament.title }}\'?'
+              {% else %}
+              'Il y a {{ tournament.nbPlayers }} joueurs dans \'{{ tournament.title }}\' , voulez-vous vraiment le supprimer ?'
+              {% endif %}
+              );">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tournament.id) }}">
     <button class="btn delete">Supprimer</button>
 </form>
