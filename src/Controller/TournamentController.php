@@ -98,16 +98,16 @@ class TournamentController extends AbstractController
     #[Route('/tournament/addUser/{id}', name: 'app_tournament_add_user', requirements : ['id'=> '\d+'], methods: ['POST'])]
     public function addUser(EntityManagerInterface $em, GameRepository $gameRepository, TournamentRepository $tournamentRepository, UserRepository $userRepository, $id, Security $security): Response
     {
-        //Check if user already exist in tournament (not more than 3 times)
+        //Does it exist?
         $tournament = $tournamentRepository->find($id);
     
         if(count($tournament->getPairs()) >= 4) {
-
-            dd("Nbre de joueurs max atteint !");
+            $this->addFlash('error', 'Nombre maximum de joueur déjà atteint');
+            return $this->redirectToRoute('app_tournament_index');
 
         } elseif( in_array($security->getUser()->getId(), $tournament->getPairs())) {
-
-            dd("joueur déjà inscrit");
+            $this->addFlash('error', 'Vous êtes déjà inscrit au tournoi n°'. $id);
+            return $this->redirectToRoute('app_tournament_index');
 
         } else {
 
@@ -125,8 +125,8 @@ class TournamentController extends AbstractController
                 for ($j = $i+1; $j <= count($pairs); ++$j) {
                     $arrayPairs[] = [$pairs [$i-1], $pairs[$j-1]];
                 }
-
             }
+
             $availableGames = $tournament->getGames()->toArray();
             $n = 0;
             foreach ($availableGames as $game) {

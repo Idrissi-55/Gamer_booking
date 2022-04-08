@@ -64,17 +64,23 @@ li{
 }
 
 /*Flash messages*/
+.flash{
+    width:15em;
+}
+
 .flash-success{
     margin:3em;
     padding:1em;
     background-color: forestgreen;
     opacity: 0.8;
+    border-radius: 1em;
 }
-.flash-danger{
+.flash-error{
     margin:3em;
     padding:1em;
     background-color: orange;
     opacity: 0.8;
+    border-radius: 1em;
 }
 
 /*Form style*/

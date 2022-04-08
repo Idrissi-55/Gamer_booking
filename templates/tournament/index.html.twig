@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Tournament index{% endblock %}
+{% block title %}Tournois{% endblock %}
 
 {% block body %}
-    <h1>Tournament index</h1>
+    <h1>Liste des tournois :</h1>
 
     <table class="table">
         <thead>
@@ -16,36 +16,41 @@
         </tr>
         </thead>
         <tbody>
-        {% for tournament in tournaments %}
-            <tr>
-                <td>{{ tournament.id }}</td>
-                <td>{{ tournament.startingDate ? tournament.startingDate|date('d M Y H:i') : '' }}</td>
-                <td>{{ tournament.endingDate ? tournament.endingDate|date('d M Y H:i') : '' }}</td>
-                <td>{{ tournament.Award }} €</td>
-                <td>
-                    <a href="{{ path('app_tournament_show', {'id': tournament.id}) }}">show</a>
+        <div>
+            {% for tournament in tournaments %}
+                <tr>
+                    <td>{{ tournament.id }}</td>
+                    <td>{{ tournament.startingDate ? tournament.startingDate|date('d M Y H:i') : '' }}</td>
+                    <td>{{ tournament.endingDate ? tournament.endingDate|date('d M Y H:i') : '' }}</td>
+                    <td>{{ tournament.Award }} €</td>
+                    <td>
+                        <a href="{{ path('app_tournament_show', {'id': tournament.id}) }}">Détails</a>
+                        {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
+                            <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">Modifier</a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if app.user and tournament.nbPlayers < 4 and tournament.endingDate > date() %}
+                            <form action="{{ path('app_tournament_add_user', {'id': tournament.id}) }}" method="post">
+                                <button type="submit">Participer</button>
+                            </form>
+
+                        {% endif %}
+                    </td>
                     {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
-                        <a href="{{ path('app_tournament_edit', {'id': tournament.id}) }}">edit</a>
+                        <td>{{ include('tournament/_delete_form.html.twig') }}</td>
                     {% endif %}
-                </td>
-                <td>
-                {% if app.user %}
-                    <form action="{{ path('app_tournament_add_user', {'id': tournament.id}) }}" method="post">
-                        <button type="submit">Participer</button>
-                    </form>
-                
-                {% endif %}
-                </td>
-                {%  if app.user and "ROLE_ADMIN" in app.user.getRoles %}
-                    <td>{{ include('tournament/_delete_form.html.twig') }}</td>
-                {% endif %}
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun tournois</td>
+                </tr>
+            {% endfor %}
+        </div>
+
         </tbody>
     </table>
-    <a href="{{ path('app_tournament_new') }}">Create new</a>
+    {% if app.user and "ROLE_ADMIN" in app.user.getRoles %}
+        <a href="{{ path('app_tournament_new') }}">Nouveau tournoi</a>
+    {% endif %}
 {% endblock %}
