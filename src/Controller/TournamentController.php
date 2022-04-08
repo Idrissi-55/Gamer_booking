@@ -42,7 +42,6 @@ class TournamentController extends AbstractController
                 $game->setTournament($tournament);
                 $game->setDescription($i);
                 $gameRepository->add($game);
-                $tournament->addGame($game);
             }
             return $this->redirectToRoute('app_tournament_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -110,7 +109,7 @@ class TournamentController extends AbstractController
             return $this->redirectToRoute('app_tournament_index');
 
         } else {
-
+            //add Id reference to pairs
             $tournament->addPlayer($security->getUser()->getId());
             $tournament->setNbPlayers($tournament->getNbPlayers() +1);
             $em->flush();
@@ -118,7 +117,7 @@ class TournamentController extends AbstractController
 
         // Create pairs
         if(count($tournament->getPairs()) === 4) {
-
+            //Shuffle players id
             $pairs = $tournament->getPairs();
             $arrayPairs = [];
             for ($i = 1; $i <= count($pairs); ++$i) {
@@ -127,6 +126,7 @@ class TournamentController extends AbstractController
                 }
             }
 
+            //Set players to games
             $availableGames = $tournament->getGames()->toArray();
             $n = 0;
             foreach ($availableGames as $game) {
@@ -151,16 +151,4 @@ class TournamentController extends AbstractController
         return $this->redirectToRoute('app_tournament_show', ['id'=>$id], Response::HTTP_SEE_OTHER);
     }
 
-    // public function makePairs(Tournament $tournament):array {
-
-    //     $pairs = $tournament->getPairs();
-    //     $arrayPairs = [];
-    //     for ($i = 1; $i <= count($pairs); ++$i) {
-    //         for ($j = $i+1; $j <= count($pairs); ++$j) {
-    //             $arrayPairs[] = [$i, $j];
-    //         }
-    //     }
-
-    //     return $arrayPairs;
-    // }
 }
